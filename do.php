@@ -41,22 +41,11 @@ ErrorHandle::register();
 ###########################################################################################################
 
 
-$type = isset($_POST['type']) ? trim($_POST['type']) : 'now';
-$left_value = isset($_POST['left_value']) ? trim($_POST['left_value']) : '';
-$right_value = isset($_POST['right_value']) ? trim($_POST['right_value']) : '';
+$type = isset($_POST['type']) ? trim($_POST['type']) : '';
 $php_code = isset($_POST['php_code']) ? trim($_POST['php_code']) : '';
 
 $ret = ['code' => 0, 'message' => 'success', 'data' => []];
-if ($type == 'date_to_timestamp') {
-    $ret['data']['date'] = $left_value;
-    $ret['data']['timestamp'] = strtotime($ret['data']['date']);
-} else if ($type == 'timestamp_to_date') {
-    $ret['data']['timestamp'] = $right_value;
-    $ret['data']['date'] = date('Y-m-d H:i:s', $ret['data']['timestamp']);
-} else if ($type == 'now') {
-    $ret['data']['timestamp'] = time();
-    $ret['data']['date'] = date('Y-m-d H:i:s', $ret['data']['timestamp']);
-} else if ($type == 'run') {
+if ($type == 'run') {
     $php_code = str_replace('<?php', '', $php_code);
     eval($php_code);
     exit;
