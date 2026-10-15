@@ -104,6 +104,7 @@ textarea:focus{
 <div>
 <button id="copyRunResult">复制输出内容</button>&nbsp;&nbsp;
 <button id="goJsonTool" onclick="javascript:{window.open('./jsonTool/json.html')}">打开JSON工具</button>&nbsp;&nbsp;
+<button id="goJsonEditor" onclick="javascript:{window.open('./jsoneditor/index.html')}">打开jsonEditor编辑器</button>&nbsp;&nbsp;
 <br>
 <button id="formatJson">格式化json</button>
 <button id="JsonToArray">JsonToArray</button>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -113,9 +114,12 @@ textarea:focus{
 <button id="Base64Decode">Base64解密</button>&nbsp;&nbsp;&nbsp;&nbsp;
 <button id="MongoDecode">去除mongo数据标记</button>&nbsp;&nbsp;
 <button id="Stripslashes">stripslashes删除反斜杠</button>&nbsp;&nbsp;
+<button id="ToSqlInString">转sqlIn字符串</button>&nbsp;&nbsp;
+<button id="Serialize">序列化</button>&nbsp;&nbsp;
+<button id="Unserialize">反序列化</button>&nbsp;&nbsp;
 
 <br>
-<textarea name="php_code" id="php_code" style="width:800px;height:400px;background-color:#ccc;font-weight: bold;font-size: 18px;"></textarea>
+<textarea name="php_code" id="php_code" style="width:1500px;height:400px;background-color:#ccc;font-weight: bold;font-size: 18px;"></textarea>
 <br>
 <button id="run" style="
     color: white;
@@ -316,6 +320,49 @@ $(function(){
 				 type: "POST",
 				 url: url,
 				 data: {"type":"Stripslashes", "php_code":php_code},
+				 success: function(json) {
+						$("#run_result").html(json);
+					}
+			 });
+		}
+    });	
+	
+	$('#ToSqlInString').click(function(){
+		php_code = $("#php_code").val();
+		if(php_code != ""){
+			$.ajax({
+				 type: "POST",
+				 url: url,
+				 data: {"type":"ToSqlInString", "php_code":php_code},
+				 success: function(json) {
+						$("#run_result").html(json);
+					}
+			 });
+		}
+    });	
+	
+	
+	$('#Serialize').click(function(){
+		php_code = $("#php_code").val();
+		if(php_code != ""){
+			$.ajax({
+				 type: "POST",
+				 url: url,
+				 data: {"type":"Serialize", "php_code":php_code},
+				 success: function(json) {
+						$("#run_result").html(json);
+					}
+			 });
+		}
+    });
+		
+	$('#Unserialize').click(function(){
+		php_code = $("#php_code").val();
+		if(php_code != ""){
+			$.ajax({
+				 type: "POST",
+				 url: url,
+				 data: {"type":"Unserialize", "php_code":php_code},
 				 success: function(json) {
 						$("#run_result").html(json);
 					}

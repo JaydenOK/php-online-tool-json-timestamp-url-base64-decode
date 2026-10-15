@@ -1,6 +1,10 @@
 <?php
 
-require 'functions.php';
+if(file_exists('../test.cc/common/functions.php')){
+	require_once '../test.cc/common/functions.php';
+} else {
+	require 'functions.php';	
+}
 
 //工具后端处理
 class ErrorHandle
@@ -58,7 +62,7 @@ if ($type == 'date_to_timestamp') {
     exit;
 } else if ($type == 'JsonToArray') {
     $ret = json_decode($php_code, true);
-    exit(print_r($ret, true));
+    exit(varExport($ret, true));
 } else if ($type == 'UrlDecode') {
     echo urldecode($php_code);
     exit;
@@ -87,6 +91,20 @@ if ($type == 'date_to_timestamp') {
     //去除反斜杠
     $php_code = stripslashes($php_code);
     echo $php_code;
+    exit;
+} else if ($type == 'Serialize') {   
+    $php_code = serialize($php_code);
+    echo $php_code;
+    exit;
+} else if ($type == 'Unserialize') {
+    $php_code = unserialize($php_code);	
+	$php_code = is_string($php_code) ? $php_code : json_encode($php_code, 256);
+    echo $php_code;
+    exit;
+} else if ($type == 'ToSqlInString') {
+    $array = array_filter(explode(",", str_replace(["\r\n", "\n", ' ', "，"], ',', $php_code)));
+	$toString = '"' . implode('","', $array) . '"';	
+    echo $toString;
     exit;
 } else {
     $ret['message'] = "无操作";
